@@ -20,10 +20,23 @@ public class TestMe {
   }
 }
 
+
+protocol Mathematics {
+  func add(to: Money) -> Money
+  func subtract(to: Money) -> Money
+}
+
+extension Double  {
+  var USD: Money { return Money(amount: Int(self), currency: "USD") }
+  var GBP: Money { return Money(amount: Int(self), currency: "GBP") }
+  var EUR: Money { return Money(amount: Int(self), currency: "EUR") }
+  var YEN: Money { return Money(amount: Int(self), currency: "YEN") }
+}
+
 ////////////////////////////////////
 // Money
 //
-public struct Money: CustomStringConvertible {
+public struct Money: CustomStringConvertible, Mathematics {
   public var amount : Int
   public var currency : String
     
@@ -48,6 +61,7 @@ public struct Money: CustomStringConvertible {
     let converted = (selfMoney + otherMoney) * (1.0 / exchange[to.currency]!)
     return Money(amount: Int(converted), currency: to.currency)
   }
+  
   public func subtract(from: Money) -> Money {
     var exchange:[String: Double] = ["USD": 1.0, "GBP": 2.0, "EUR": 2/3, "CAN": 4/5]
 
