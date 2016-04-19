@@ -23,9 +23,13 @@ public class TestMe {
 ////////////////////////////////////
 // Money
 //
-public struct Money {
+public struct Money: CustomStringConvertible {
   public var amount : Int
   public var currency : String
+    
+    public var description: String {
+        return currency + String(amount)
+    }
   
   public func convert(to: String) -> Money {
     var exchange:[String: Double] = ["USD": 1.0, "GBP": 2.0, "EUR": 2/3, "CAN": 4/5]
@@ -61,14 +65,18 @@ public struct Money {
 //////////////////////////////////////
 // Job
 //
-public class Job {
+public class Job: CustomStringConvertible {
   public enum JobType {
     case Hourly(Double)
     case Salary(Int)
   }
+    
     public var type : JobType
     public var title : String
-  
+    public var description: String {
+        return self.title
+    }
+
   public init(title : String, type : JobType) {
     self.title = title
     self.type = type
@@ -98,7 +106,7 @@ public class Job {
 ////////////////////////////////////
 // Person
 //
-public class Person {
+public class Person: CustomStringConvertible {
   public var firstName : String = ""
   public var lastName : String = ""
   public var age : Int = 0
@@ -127,6 +135,10 @@ public class Person {
         }
     }
   }
+    
+    public var description: String {
+        return "I am \(firstName) \(lastName)"
+    }
   
   public init(firstName : String, lastName: String, age : Int) {
     self.firstName = firstName
@@ -143,8 +155,16 @@ public class Person {
 ////////////////////////////////////
 // Family
 //
-public class Family {
+public class Family: CustomStringConvertible {
   private var members : [Person] = []
+    
+    public var description: String {
+        var description = ""
+        for person in self.members {
+          description += "\(person.firstName) \(person.lastName)\n"
+        }
+        return description
+    }
   
   public init(spouse1: Person, spouse2: Person) {
     if spouse1.spouse == nil && spouse2.spouse == nil && (spouse1.age >= 21 || spouse2.age >= 21) {
